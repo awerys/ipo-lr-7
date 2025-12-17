@@ -15,22 +15,20 @@ if not os.path.exists(DATA_FILE):
         json.dump(initial_data, f, ensure_ascii=False, indent=2)
 while True:
     print("\n" + "="*50)
-    print("МЕНЮ УПРАВЛЕНИЯ БАЗОЙ ДАННЫХ РЫБ")
-    print("="*50)
+    print("Меню данной базы рыб:")
+    print(" "*50)
     print("1. Вывести все записи")
     print("2. Вывести запись по полю (id)")
     print("3. Добавить запись")
     print("4. Удалить запись по полю (id)")
     print("5. Выйти из программы")
-    print("-"*50)
+    print(" "*50)
     choice = input("Выберите пункт меню (1-5): ").strip()
     if choice == "1":
         operations_count += 1
         try:
             with open(DATA_FILE, 'r', encoding='utf-8') as f:
                 fishes = json.load(f)
-            if not fishes:
-                print("\nБаза данных пуста!")
             else:
                 print(f"\nВсего записей: {len(fishes)}")
                 print("-" * 70)
@@ -41,16 +39,10 @@ while True:
                     print(f"   Латинское название: {fish['latin_name']}")
                     print(f"   Тип: {water_type}")
                     print(f"   Количество подвидов: {fish['sub_type_count']}")
-                    print("-" * 70)
-        except Exception as e:
-            print(f"\nОшибка при чтении файла: {e}")
+                    print(" " * 70)
     elif choice == "2":
         operations_count += 1
-        try:
             fish_id = input("Введите ID рыбы для поиска: ").strip()
-            if not fish_id.isdigit():
-                print("\nОшибка: ID должен быть числом!")
-                continue
             fish_id = int(fish_id)
             with open(DATA_FILE, 'r', encoding='utf-8') as f:
                 fishes = json.load(f)
@@ -65,15 +57,9 @@ while True:
                     print(f"Латинское название: {fish['latin_name']}")
                     print(f"Тип: {water_type}")
                     print(f"Количество подвидов: {fish['sub_type_count']}")
-                    print("-" * 50)
+                    print(" " * 50)
                     found = True
                     break
-            if not found:
-                print(f"\nПредупреждение: Рыба с ID {fish_id} не найдена!")
-        except ValueError:
-            print("\nОшибка: Неверный формат ID!")
-        except Exception as e:
-            print(f"\nОшибка при поиске записи: {e}")
     elif choice == "3":
         operations_count += 1
         try:
@@ -84,19 +70,10 @@ while True:
             max_id = max(fish["id"] for fish in fishes) if fishes else 0
             new_id = max_id + 1
             name = input("Введите общее название рыбы: ").strip()
-            if not name:
-                print("Ошибка: Название не может быть пустым!")
-                continue
             latin_name = input("Введите латинское название рыбы: ").strip()
-            if not latin_name:
-                print("Ошибка: Латинское название не может быть пустым!")
-                continue
             water_input = input("Морская рыба? (да/нет): ").strip().lower()
             is_salt_water_fish = water_input in ['да', 'yes', 'y', 'д']
             sub_type_count_input = input("Введите количество подвидов: ").strip()
-            if not sub_type_count_input.isdigit() or int(sub_type_count_input) < 0:
-                print("Ошибка: Количество подвидов должно быть неотрицательным числом!")
-                continue
             sub_type_count = int(sub_type_count_input)
             new_fish = {
                 "id": new_id,
@@ -109,15 +86,9 @@ while True:
             with open(DATA_FILE, 'w', encoding='utf-8') as f:
                 json.dump(fishes, f, ensure_ascii=False, indent=2)
             print(f"\nЗапись успешно добавлена с ID: {new_id}")
-        except Exception as e:
-            print(f"\nОшибка при добавлении записи: {e}")
     elif choice == "4":
         operations_count += 1
-        try:
             fish_id = input("Введите ID рыбы для удаления: ").strip()
-            if not fish_id.isdigit():
-                print("\nОшибка: ID должен быть числом!")
-                continue
             fish_id = int(fish_id)
             with open(DATA_FILE, 'r', encoding='utf-8') as f:
                 fishes = json.load(f)
@@ -137,14 +108,12 @@ while True:
                     found = True
                     break
             if not found:
-                print(f"\nПредупреждение: Рыба с ID {fish_id} не найдена!")
+                print(f"\nРыба с ID {fish_id} не найдена")
         except ValueError:
-            print("\nОшибка: Неверный формат ID!")
+            print("\nОшибка: Неверный формат ID")
         except Exception as e:
             print(f"\nОшибка при удалении записи: {e}")
     elif choice == "5":
         print(f"\nВсего выполнено операций: {operations_count}")
-        print("Программа завершена. До свидания!")
+        print("Программа завершена. До свидания")
         break
-    else:
-        print("\nОшибка: Неверный пункт меню! Выберите от 1 до 5.")
