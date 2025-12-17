@@ -2,14 +2,7 @@
 import json
 def find_skill_by_code():
     # Чтение данных из файла
-    try:
         with open('dump.json', 'r', encoding='utf-8') as file:
-            data = json.load(file)
-    except FileNotFoundError:
-        print("Файл dump.json не найден!")
-        return
-    except json.JSONDecodeError:
-        print("Ошибка чтения JSON файла!")
         return
     # Ввод номера квалификации
     skill_code = input("Введите номер квалификации: ").strip()
@@ -36,12 +29,8 @@ def find_skill_by_code():
                 specialty_name = specialty_fields['title']
                 specialty_type = specialty_fields['c_type']
                 break
-        print("=============== Найдено ===============")
+        print("--- Найдено ---")
         print(f"{specialty_code} >> Специальность \"{specialty_name}\", {specialty_type}")
         print(f"{skill_code} >> Квалификация \"{skill_title}\"")
-    else:
-        print("=============== Не найдено ===============")
-
-# Запуск программы
 if __name__ == "__main__":
     find_skill_by_code()
