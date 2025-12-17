@@ -29,11 +29,8 @@ def show_all():
     global operations_count
     operations_count += 1
     fishes = load_fishes()
-    if not fishes:
-        print("\nБаза данных пуста!")
-        return
     print(f"\nВсего записей: {len(fishes)}")
-    print("-" * 70)
+    print(" ")
     for i, fish in enumerate(fishes, 1):
         water = "морская" if fish["is_salt_water_fish"] else "пресноводная"
         print(f"{i}. ID: {fish['id']}")
@@ -41,14 +38,11 @@ def show_all():
         print(f"   Латинское название: {fish['latin_name']}")
         print(f"   Тип: {water}")
         print(f"   Количество подвидов: {fish['sub_type_count']}")
-        print("-" * 70)
+        print(" ")
 def find_by_id():
     global operations_count
     operations_count += 1
     fish_id = input("Введите ID рыбы для поиска: ").strip()
-    if not check_id(fish_id):
-        print("\nОшибка: ID должен быть числом!")
-        return
     fishes = load_fishes()
     fish_id = int(fish_id)
     for fish in fishes:
@@ -62,7 +56,6 @@ def find_by_id():
             print(f"Тип: {water}")
             print(f"Количество подвидов: {fish['sub_type_count']}")
             return
-    print(f"\nРыба с ID {fish_id} не найдена!")
 def add_fish():
     global operations_count
     operations_count += 1
@@ -71,20 +64,12 @@ def add_fish():
     max_id = max(fish["id"] for fish in fishes) if fishes else 0
     new_id = max_id + 1
     name = input("Введите название рыбы: ").strip()
-    if not check_name(name):
-        print("Ошибка: Название не может быть пустым!")
-        return
     latin = input("Введите латинское название: ").strip()
-    if not check_name(latin):
-        print("Ошибка: Латинское название не может быть пустым!")
-        return
     water = input("Морская рыба? (да/нет): ").strip().lower()
     if water not in ['да', 'yes', 'y', 'д', 'нет', 'no', 'n', 'н']:
-        print("Ошибка: Введите 'да' или 'нет'!")
         return
     subtypes = input("Введите количество подвидов: ").strip()
     if not check_number(subtypes):
-        print("Ошибка: Введите неотрицательное число!")
         return
     new_fish = {
         "id": new_id,
@@ -100,8 +85,6 @@ def delete_fish():
     global operations_count
     operations_count += 1
     fish_id = input("Введите ID рыбы для удаления: ").strip()
-    if not check_id(fish_id):
-        print("\nОшибка: ID должен быть числом!")
         return
     fishes = load_fishes()
     fish_id = int(fish_id)
@@ -114,17 +97,16 @@ def delete_fish():
             print(f"ID: {deleted['id']}")
             print(f"Название: {deleted['name']}")
             return
-    print(f"\nРыба с ID {fish_id} не найдена!")
 def show_menu():
-    print("\n" + "="*50)
-    print("БАЗА ДАННЫХ РЫБ")
-    print("="*50)
+    print("\n" + " ")
+    print("База данных рыб:")
+    print(" ")
     print("1. Показать всех рыб")
     print("2. Найти рыбу по ID")
     print("3. Добавить рыбу")
     print("4. Удалить рыбу")
     print("5. Выйти")
-    print("-"*50)
+    print(" ")
 def main():
     print("Добро пожаловать в базу данных рыб!")
     while True:
@@ -140,11 +122,7 @@ def main():
             delete_fish()
         elif choice == "5":
             print(f"\nВсего операций: {operations_count}")
-            print("До свидания!")
+            print("Всего доброго")
             break
-        else:
-            print("\nОшибка! Выберите от 1 до 5")
-        if choice != "5":
-            input("\nНажмите Enter чтобы продолжить...")
 if __name__ == "__main__":
     main()
