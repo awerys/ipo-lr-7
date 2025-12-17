@@ -26,10 +26,8 @@ while True:
     choice = input("Выберите пункт меню (1-5): ").strip()
     if choice == "1":
         operations_count += 1
-        try:
-            with open(DATA_FILE, 'r', encoding='utf-8') as f:
+    with open(DATA_FILE, 'r', encoding='utf-8') as f:
                 fishes = json.load(f)
-            else:
                 print(f"\nВсего записей: {len(fishes)}")
                 print("-" * 70)
                 for i, fish in enumerate(fishes, 1):
@@ -40,14 +38,14 @@ while True:
                     print(f"   Тип: {water_type}")
                     print(f"   Количество подвидов: {fish['sub_type_count']}")
                     print(" " * 70)
-    elif choice == "2":
-        operations_count += 1
-            fish_id = input("Введите ID рыбы для поиска: ").strip()
-            fish_id = int(fish_id)
-            with open(DATA_FILE, 'r', encoding='utf-8') as f:
+  
+    operations_count += 1
+    fish_id = input("Введите ID рыбы для поиска: ").strip()
+    fish_id = int(fish_id)
+    with open(DATA_FILE, 'r', encoding='utf-8') as f:
                 fishes = json.load(f)
-            found = False
-            for position, fish in enumerate(fishes, 1):
+    found = False
+    for position, fish in enumerate(fishes, 1):
                 if fish["id"] == fish_id:
                     print(f"\nНайдена запись (позиция {position}):")
                     print("-" * 50)
@@ -60,40 +58,37 @@ while True:
                     print(" " * 50)
                     found = True
                     break
-    elif choice == "3":
-        operations_count += 1
-        try:
-            with open(DATA_FILE, 'r', encoding='utf-8') as f:
+    operations_count += 1
+    with open(DATA_FILE, 'r', encoding='utf-8') as f:
                 fishes = json.load(f)
-            print("\nДобавление новой записи о рыбе:")
-            print("-" * 30)
-            max_id = max(fish["id"] for fish in fishes) if fishes else 0
-            new_id = max_id + 1
-            name = input("Введите общее название рыбы: ").strip()
-            latin_name = input("Введите латинское название рыбы: ").strip()
-            water_input = input("Морская рыба? (да/нет): ").strip().lower()
-            is_salt_water_fish = water_input in ['да', 'yes', 'y', 'д']
-            sub_type_count_input = input("Введите количество подвидов: ").strip()
-            sub_type_count = int(sub_type_count_input)
-            new_fish = {
+    print("\nДобавление новой записи о рыбе:")
+    print("-" * 30)
+    max_id = max(fish["id"] for fish in fishes) if fishes else 0
+    new_id = max_id + 1
+    name = input("Введите общее название рыбы: ").strip()
+    latin_name = input("Введите латинское название рыбы: ").strip()
+    water_input = input("Морская рыба? (да/нет): ").strip().lower()
+    is_salt_water_fish = water_input in ['да', 'yes', 'y', 'д']
+    sub_type_count_input = input("Введите количество подвидов: ").strip()
+    sub_type_count = int(sub_type_count_input)
+    new_fish = {
                 "id": new_id,
                 "name": name,
                 "latin_name": latin_name,
                 "is_salt_water_fish": is_salt_water_fish,
                 "sub_type_count": sub_type_count
             }
-            fishes.append(new_fish)
-            with open(DATA_FILE, 'w', encoding='utf-8') as f:
+    fishes.append(new_fish)
+    with open(DATA_FILE, 'w', encoding='utf-8') as f:
                 json.dump(fishes, f, ensure_ascii=False, indent=2)
-            print(f"\nЗапись успешно добавлена с ID: {new_id}")
-    elif choice == "4":
-        operations_count += 1
-            fish_id = input("Введите ID рыбы для удаления: ").strip()
-            fish_id = int(fish_id)
-            with open(DATA_FILE, 'r', encoding='utf-8') as f:
+    print(f"\nЗапись успешно добавлена с ID: {new_id}")
+    operations_count += 1
+    fish_id = input("Введите ID рыбы для удаления: ").strip()
+    fish_id = int(fish_id)
+    with open(DATA_FILE, 'r', encoding='utf-8') as f:
                 fishes = json.load(f)
-            found = False
-            for i, fish in enumerate(fishes):
+    found = False
+    for i, fish in enumerate(fishes):
                 if fish["id"] == fish_id:
                     deleted_fish = fishes.pop(i)
                     water_type = "морская" if deleted_fish["is_salt_water_fish"] else "пресноводная"
@@ -107,12 +102,8 @@ while True:
                     print(f"Количество подвидов: {deleted_fish['sub_type_count']}")
                     found = True
                     break
-            if not found:
+    if not found:
                 print(f"\nРыба с ID {fish_id} не найдена")
-        except ValueError:
-            print("\nОшибка: Неверный формат ID")
-        except Exception as e:
-            print(f"\nОшибка при удалении записи: {e}")
     elif choice == "5":
         print(f"\nВсего выполнено операций: {operations_count}")
         print("Программа завершена. До свидания")
